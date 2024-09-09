@@ -4,17 +4,18 @@ public class Main {
 
         // Usar UPS
         IUPSEnvio upsServicio = new UPSServicioImpl();
-        ProcesarOrdenUPS procesarOrdenUPS = new ProcesarOrdenUPS(upsServicio);
-        procesarOrdenUPS.procesar(orden);
+        IFedExEnvio fedExServicio = new FedExServicioImpl();
+        IDHLEnvio dhlServicio = new DHLServicioImpl();
+
+        SistemaEnvios sistema = new SistemaEnvios(dhlServicio, fedExServicio, upsServicio);
+
+        // Usar UPS
+        sistema.enviarPorUPS(orden);
 
         // Usar FedEx
-        IFedExEnvio fedExServicio = new FedExServicioImpl();
-        ProcesarOrdenFedEx procesarOrdenFedEx = new ProcesarOrdenFedEx(fedExServicio);
-        procesarOrdenFedEx.procesar(orden);
+        sistema.enviarPorFedEx(orden);
 
         // Usar DHL
-        IDHLEnvio dhlServicio = new DHLServicioImpl();
-        ProcesarOrdenDHL procesarOrdenDHL = new ProcesarOrdenDHL(dhlServicio);
-        procesarOrdenDHL.procesar(orden);
+        sistema.enviarPorDHL(orden);
     }
 }
